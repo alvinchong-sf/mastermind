@@ -11,10 +11,11 @@ class Keypad extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleClear = this.handleClear.bind(this);
     }
 
     handleEnter() {
-        if(this.state.secretNum === this.state.guessNum) {
+        if(this.state.secretNum === this.state.guessNum.join("")) {
             console.log("you win");
         } else {
             console.log("you lose");
@@ -22,14 +23,17 @@ class Keypad extends React.Component {
     }
 
     handleClick(e) {
-        // if(this.state.guessNum.length < 4) {
-        //     this.setState({guessNum: this.state.guessNum += e.currentTarget.value});
-        // }
-        this.setState({guessNum: this.state.guessNum.push("hello")})
+        if(this.state.guessNum.length < 4) {
+            this.setState({guessNum: this.state.guessNum.concat([e.currentTarget.value])});
+        }
     }
 
     handleDelete(e) {
 
+    }
+
+    handleClear() {
+        this.setState({guessNum: []});
     }
 
 
@@ -53,6 +57,7 @@ class Keypad extends React.Component {
                     <button onClick={this.handleDelete}>D</button>
                 </div>
                 <button onClick={this.handleEnter}>Enter</button>
+                <button onClick={this.handleClear}>Clear</button>
             </div>
         )
     }
