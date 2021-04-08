@@ -6,10 +6,11 @@ class Keypad extends React.Component {
         super(props)
         this.state = {
             guessNum: [],
-            secretNum: "",
+            secretNum: [],
             numAttempts: 10,
             numMatches: 0,
-            numNearMatches: 0
+            numNearMatches: 0,
+            incorrectGuess: ""
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
@@ -21,21 +22,27 @@ class Keypad extends React.Component {
         const url = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
         const response = await fetch(url);
         const data = await response.text();
-        this.setState({secretNum: this.state.secretNum += data})
-        // console.log(this.state.secretNum);
+        const arr = data.split("\n");
+        const newArr = arr.slice(0, arr.length - 1)
+        this.setState({secretNum: newArr});
+        console.log(this.state.secretNum);
     }
 
     handleEnter() {
         this.handleNumExactMatches();
         this.handleNumNearMatches();
-        if(this.state.secretNum === this.state.guessNum.join("")) {
+        // The player had guessed a correct number and its correct location
+        if(this.state.secretNum.join("") === this.state.guessNum.join("")) {
             console.log("you win");
-        } else if(this.state.numAttempts === 1) {
-            alert("you lose")
-        } else {
-            // this.handleClear();
+        } // If the player had one life remaining
+         else if(this.state.numAttempts === 1) {
+            console.log("you lose");
+        } // The player's guess was incorrect
+         else {
             this.setState({numAttempts: this.state.numAttempts - 1})
-            alert("try again");
+            this.setState({incorrectGuess: this.state.guessNum})
+            this.handleClear();
+            console.log("try again");
         }
     }
 
@@ -54,6 +61,7 @@ class Keypad extends React.Component {
     }
 
     handleClear() {
+        // console.log(typeof(this.state.secretNum))
         this.setState({guessNum: []});
     }
 
@@ -68,9 +76,9 @@ class Keypad extends React.Component {
     handleNumNearMatches() {
         let counter = 0;
         for(let i = 0; i < this.state.guessNum.length; i++) {
-            const secretCode = this.state.secretNum.split("");
+            const secretCode = this.state.secretNum;
             const currNum = this.state.guessNum[i];
-            if(secretCode.includes(currNum) && this.state.secretNum[i] !== this.state.guessNum[i]) {
+            if(secretCode.includes(currNum) && secretCode[i] !== currNum) {
                 counter++
             }
         }
@@ -99,9 +107,15 @@ class Keypad extends React.Component {
                 </div>
                 <button onClick={this.handleEnter}>Enter</button>
                 <button onClick={this.handleClear}>Clear</button>
-                <div>{this.state.numAttempts} Attempts Remaining</div>
-                <div>{this.state.numMatches} exact matches</div>
-                <div>{this.state.numNearMatches} near matches</div>
+                <div>Attempts Remaining: {this.state.numAttempts}</div>
+                <div>Exact matches: {this.state.numMatches}</div>
+                <div>Near Matches: {this.state.numNearMatches}</div>
+                <div>Incorrect code: {this.state.incorrectGuess}</div>
+                {/* <div>
+                    {this.state.secretNum.map((num, i) => {
+                        return <li key={i}>{num}</li>
+                    })}
+                </div> */}
             </div>
         )
     }
