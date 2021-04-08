@@ -4,7 +4,7 @@ import Keypad from './Keypad';
 const App = () => {
     return (
         <div>
-            This is App
+            Play Mastermind!
             <Keypad />
         </div>
     )
