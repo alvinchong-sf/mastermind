@@ -33,9 +33,9 @@ class Keypad extends React.Component {
         } else if(this.state.numAttempts === 1) {
             alert("you lose")
         } else {
-            this.handleClear();
+            // this.handleClear();
             this.setState({numAttempts: this.state.numAttempts - 1})
-            console.log("try again");
+            alert("try again");
         }
     }
 
@@ -45,8 +45,12 @@ class Keypad extends React.Component {
         }
     }
 
-    handleDelete(e) {
-        console.log(this.state.secretNum);
+    handleDelete(idx) {
+        return (e) => {
+            // const newList = this.state.guessNum.slice(0, idx)
+            const newList = this.state.guessNum.filter((num, i) => i !== idx)
+            this.setState({guessNum: newList});
+        }
     }
 
     handleClear() {
@@ -74,9 +78,10 @@ class Keypad extends React.Component {
     }
 
     render() {
+        const idx = this.state.guessNum.length - 1;
         return (
             <div>
-                {this.state.guessNum}
+                {this.state.guessNum.length ? this.state.guessNum : "Guess the secret code"}
                 <div>
                     <button onClick={this.handleClick} value="0">0</button>
                     <button onClick={this.handleClick} value="1">1</button>
@@ -90,7 +95,7 @@ class Keypad extends React.Component {
                 <div>
                     <button onClick={this.handleClick} value="6">6</button>
                     <button onClick={this.handleClick} value="7">7</button>
-                    <button onClick={this.handleDelete}>D</button>
+                    <button onClick={this.handleDelete(idx)}>Delete</button>
                 </div>
                 <button onClick={this.handleEnter}>Enter</button>
                 <button onClick={this.handleClear}>Clear</button>
