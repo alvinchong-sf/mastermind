@@ -1,4 +1,6 @@
 import React from 'react';
+import Modal from './modals/Modal';
+import GameOverModal from './modals/Game_over_modal';
 
 class Keypad extends React.Component {
 
@@ -8,39 +10,56 @@ class Keypad extends React.Component {
             guessNum: [],
             secretNum: [],
             numAttempts: 10,
-            numMatches: 0,
-            numNearMatches: 0,
-            incorrectGuess: ""
+            showModal: true,
+            table: []
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleClear = this.handleClear.bind(this);
+        this.handleModal = this.handleModal.bind(this);
+        this.handleRestart = this.handleRestart.bind(this);
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.handleNewCode();
+    }
+
+    async handleNewCode() {
         const url = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
         const response = await fetch(url);
         const data = await response.text();
         const arr = data.split("\n");
         const newArr = arr.slice(0, arr.length - 1)
         this.setState({secretNum: newArr});
-        console.log(this.state.secretNum);
+        console.log(`This is the secret code ${this.state.secretNum}`);
+    }
+
+    handleModal() {
+        this.setState({showModal: !this.state.showModal})
+    }
+
+    handleRestart() {
+        this.setState({guessNum: []});
+        this.setState({numAttempts: 10});
+        this.setState({table: []});
+        this.handleNewCode();
     }
 
     handleEnter() {
-        this.handleNumExactMatches();
-        this.handleNumNearMatches();
+        const numExact = this.handleNumExactMatches();
+        const numNear = this.handleNumNearMatches(); 
         // The player had guessed a correct number and its correct location
         if(this.state.secretNum.join("") === this.state.guessNum.join("")) {
             console.log("you win");
-        } // If the player had one life remaining
-         else if(this.state.numAttempts === 1) {
-            console.log("you lose");
-        } // The player's guess was incorrect
-         else {
+        } else {
+            // The player has a incorrect guess
             this.setState({numAttempts: this.state.numAttempts - 1})
-            this.setState({incorrectGuess: this.state.guessNum})
+            if(this.state.numAttempts <= 1) {
+                console.log("you lose")
+                return;
+            }
+            this.setState({table: this.state.table.concat([[this.state.guessNum, numExact, numNear]])})
             this.handleClear();
             console.log("try again");
         }
@@ -70,10 +89,11 @@ class Keypad extends React.Component {
         for(let i = 0; i < this.state.guessNum.length; i++) {
             if(this.state.guessNum[i] === this.state.secretNum[i]) counter++
         }
-        this.setState({numMatches: counter})
+        return counter;
     }
 
     handleNumNearMatches() {
+        // The player had guess a correct number (number exist but not at the right location)
         let counter = 0;
         for(let i = 0; i < this.state.guessNum.length; i++) {
             const secretCode = this.state.secretNum;
@@ -82,7 +102,7 @@ class Keypad extends React.Component {
                 counter++
             }
         }
-        this.setState({numNearMatches: counter});
+        return counter;
     }
 
     render() {
@@ -108,14 +128,19 @@ class Keypad extends React.Component {
                 <button onClick={this.handleEnter}>Enter</button>
                 <button onClick={this.handleClear}>Clear</button>
                 <div>Attempts Remaining: {this.state.numAttempts}</div>
-                <div>Exact matches: {this.state.numMatches}</div>
-                <div>Near Matches: {this.state.numNearMatches}</div>
-                <div>Incorrect code: {this.state.incorrectGuess}</div>
-                {/* <div>
-                    {this.state.secretNum.map((num, i) => {
-                        return <li key={i}>{num}</li>
+                {this.state.showModal ? <Modal handleModal={this.handleModal}/> : ""}
+                {this.state.numAttempts <= 0 ? <GameOverModal handleRestart={this.handleRestart}/> : ""}
+                <div>
+                    {this.state.table.slice().reverse().map((arr, i) => {
+                        return(
+                            <ul key={i}>
+                                <li>Incorrect Guess: {arr[0]}</li>
+                                <li>Exact Matches: {arr[1]}</li>
+                                <li>Near Matches: {arr[2]}</li>
+                            </ul>
+                        )
                     })}
-                </div> */}
+                </div>
             </div>
         )
     }
