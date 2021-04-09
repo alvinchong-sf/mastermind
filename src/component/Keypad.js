@@ -11,7 +11,8 @@ class Keypad extends React.Component {
             secretNum: [],
             numAttempts: 10,
             showModal: true,
-            table: []
+            table: [],
+            win: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
@@ -43,14 +44,20 @@ class Keypad extends React.Component {
         this.setState({guessNum: []});
         this.setState({numAttempts: 10});
         this.setState({table: []});
+        this.setState({win: false});
         this.handleNewCode();
     }
 
     handleEnter() {
         const numExact = this.handleNumExactMatches();
         const numNear = this.handleNumNearMatches(); 
-        // The player had guessed a correct number and its correct location
-        if(this.state.secretNum.join("") === this.state.guessNum.join("")) {
+
+        // if the guess code is not at least 4 numbers
+        if(this.state.guessNum.length < 4) {
+            alert("Minimum 4 digit code require");
+        } // The player had guessed a correct number and its correct location
+        else if(this.state.secretNum.join("") === this.state.guessNum.join("")) {
+            this.setState({win: true})
             console.log("you win");
         } else {
             // The player has a incorrect guess
@@ -73,8 +80,7 @@ class Keypad extends React.Component {
 
     handleDelete(idx) {
         return (e) => {
-            // const newList = this.state.guessNum.slice(0, idx)
-            const newList = this.state.guessNum.filter((num, i) => i !== idx)
+            const newList = this.state.guessNum.filter((num, i) => i !== idx);
             this.setState({guessNum: newList});
         }
     }
@@ -129,7 +135,7 @@ class Keypad extends React.Component {
                 <button onClick={this.handleClear}>Clear</button>
                 <div>Attempts Remaining: {this.state.numAttempts}</div>
                 {this.state.showModal ? <Modal handleModal={this.handleModal}/> : ""}
-                {this.state.numAttempts <= 0 ? <GameOverModal handleRestart={this.handleRestart}/> : ""}
+                {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal handleRestart={this.handleRestart} win={this.state.win}/> : ""}
                 <div>
                     {this.state.table.slice().reverse().map((arr, i) => {
                         return(
