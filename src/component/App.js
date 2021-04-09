@@ -5,7 +5,7 @@ import Keypad from './Keypad';
 const App = () => {
     return (
         <div>
-            Play Mastermind!
+            {/* Play Mastermind! */}
             <Keypad />
             {/* <Modal bool={true}/> */}
         </div>

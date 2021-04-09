@@ -1,3 +1,7 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 .outer-modal {
     position: fixed;
     left: 0;
@@ -32,4 +36,104 @@
 .modal-button {
     height: 40px;
     width: 110px;
+}
+
+.number-button-container button {
+    width: 100px;
+    height: 100px;
+    border: none;
+    /* border-radius: 10px; */
+    font-size: 40px;
+    /* font-family: 'Roboto', sans-serif; */
+    color: rgb(45, 18, 56);
+    outline: none;
+    filter:brightness(80%);
+}
+
+.number-button-container button:hover, 
+.enter-clear-delete-container button:hover {
+    cursor: pointer;
+    filter:brightness(100%);
+}
+
+
+#button1 {
+    background-color: red;
+    border-top-left-radius: 10px;
+}
+#button2 {
+    background-color: green
+}
+#button3 {
+    background-color: blue;
+    border-top-right-radius: 10px;
+}
+#button4 {
+    background-color: yellow
+}
+#button5 {
+    background-color: orange
+}
+#button6 {
+    background-color: pink;
+    border-bottom-right-radius: 10px;
+}
+#button7 {
+    background-color: grey;
+    border-bottom-left-radius: 10px;
+}
+#button0 {
+    background-color: whitesmoke;
+    border-bottom-right-radius: 10px;
+}
+#buttonD {
+    background-color: red;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+#buttonE {
+    background-color: green;
+}
+#buttonC {
+    background-color: grey;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.keypad-outer-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.enter-clear-delete-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enter-clear-delete-container button {
+    height: 60px;
+    width: 100px;
+    border: none;
+    font-size: 23px;
+    outline: none;
+    filter: brightness(85%);
+}
+
+.feedback-container {
+    border: 1px solid lightgray;
+    width: 33%;
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+.attempt-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#hello {
+    /* border: 1px solid black; */
 }

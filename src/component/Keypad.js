@@ -29,6 +29,7 @@ class Keypad extends React.Component {
     async handleNewCode() {
         const url = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
         const response = await fetch(url);
+        // if(!response.ok) throw new Error(`Error! status: ${response.status}`);
         const data = await response.text();
         const arr = data.split("\n");
         const newArr = arr.slice(0, arr.length - 1)
@@ -114,39 +115,49 @@ class Keypad extends React.Component {
     render() {
         const idx = this.state.guessNum.length - 1;
         return (
-            <div>
-                {this.state.guessNum.length ? this.state.guessNum : "Guess the secret code"}
-                <div>
-                    <button onClick={this.handleClick} value="0">0</button>
-                    <button onClick={this.handleClick} value="1">1</button>
-                    <button onClick={this.handleClick} value="2">2</button>
+            <div className="keypad-outer-container">
+                <div id="hello">
+                    <h1>Guess the secret code</h1>
+                    {this.state.guessNum.length ? this.state.guessNum : "????"}
+                    <div className="number-button-container">
+                        <button id="button1" onClick={this.handleClick} value="1">1</button>
+                        <button id="button2" onClick={this.handleClick} value="2">2</button>
+                        <button id="button3" onClick={this.handleClick} value="3">3</button>
+                    </div>
+                    <div className="number-button-container">
+                        <button id="button4" onClick={this.handleClick} value="4">4</button>
+                        <button id="button5" onClick={this.handleClick} value="5">5</button>
+                        <button id="button6" onClick={this.handleClick} value="6">6</button>
+                    </div>
+                    <div className="number-button-container">
+                        <button id="button7" onClick={this.handleClick} value="7">7</button>
+                        <button id="button0" onClick={this.handleClick} value="0">0</button>
+                        {/* <button id="buttonD" onClick={this.handleDelete(idx)}>Delete</button> */}
+                    </div>
+                    <div className="enter-clear-delete-container">
+                        <button id="buttonD" onClick={this.handleDelete(idx)}>Delete</button>
+                        <button id="buttonE" onClick={this.handleEnter}>Enter</button>
+                        <button id="buttonC" onClick={this.handleClear}>Clear</button>
+                    </div>
                 </div>
-                <div>
-                    <button onClick={this.handleClick} value="3">3</button>
-                    <button onClick={this.handleClick} value="4">4</button>
-                    <button onClick={this.handleClick} value="5">5</button>
+
+                <div className="feedback-container">
+                    <h1 className="attempt-header">Attempts Remaining: {this.state.numAttempts}</h1>
+                    {this.state.showModal ? <Modal handleModal={this.handleModal}/> : ""}
+                    {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal handleRestart={this.handleRestart} win={this.state.win}/> : ""}
+                    <div>
+                        {this.state.table.slice().reverse().map((arr, i) => {
+                            return(
+                                <ul key={i}>
+                                    <li>Incorrect Guess: {arr[0]}</li>
+                                    <li>Exact Matches: {arr[1]}</li>
+                                    <li>Near Matches: {arr[2]}</li>
+                                </ul>
+                            )
+                        })}
+                    </div>
                 </div>
-                <div>
-                    <button onClick={this.handleClick} value="6">6</button>
-                    <button onClick={this.handleClick} value="7">7</button>
-                    <button onClick={this.handleDelete(idx)}>Delete</button>
-                </div>
-                <button onClick={this.handleEnter}>Enter</button>
-                <button onClick={this.handleClear}>Clear</button>
-                <div>Attempts Remaining: {this.state.numAttempts}</div>
-                {this.state.showModal ? <Modal handleModal={this.handleModal}/> : ""}
-                {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal handleRestart={this.handleRestart} win={this.state.win}/> : ""}
-                <div>
-                    {this.state.table.slice().reverse().map((arr, i) => {
-                        return(
-                            <ul key={i}>
-                                <li>Incorrect Guess: {arr[0]}</li>
-                                <li>Exact Matches: {arr[1]}</li>
-                                <li>Near Matches: {arr[2]}</li>
-                            </ul>
-                        )
-                    })}
-                </div>
+
             </div>
         )
     }
