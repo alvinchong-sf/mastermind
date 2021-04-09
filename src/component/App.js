@@ -1,12 +1,13 @@
 import React from "react";
 import Keypad from './Keypad';
-// import Modal from './Modal';
+import Music from './Music'
 
 const App = () => {
     return (
         <div>
             {/* Play Mastermind! */}
             <Keypad />
+            {/* <Music /> */}
             {/* <Modal bool={true}/> */}
         </div>
     )

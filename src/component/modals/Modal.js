@@ -7,7 +7,7 @@ const Modal = (props) => {
             <div className="inner-modal">
                 <h1 className="modal-header">Play Mastermind!</h1>
                 <div className="modal-button-container">
-                    <button className="modal-button" onClick={props.handleModal}>Start Game</button>
+                    <button className="modal-button" onClick={props.handleStart}>Start Game</button>
                 </div>
             </div>
         </div>
