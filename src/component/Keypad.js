@@ -13,7 +13,7 @@ class Keypad extends React.Component {
             showModal: true,
             table: [],
             win: false,
-            time: 60
+            time: 60,
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
@@ -21,7 +21,9 @@ class Keypad extends React.Component {
         this.handleClear = this.handleClear.bind(this);
         this.handleStart = this.handleStart.bind(this);
         this.handleRestart = this.handleRestart.bind(this);
+        this.handleStopMusic = this.handleStopMusic.bind(this);
         this.handlePlayMusic = this.handlePlayMusic.bind(this);
+        this.handlePauseMusic = this.handlePauseMusic.bind(this);
     }
 
     componentDidMount() {
@@ -47,6 +49,7 @@ class Keypad extends React.Component {
     handleRestart() {
         this.setState({guessNum: [], numAttempts: 10, table: [], win: false});
         this.handleNewCode();
+        this.handlePlayMusic();
     }
 
     handleEnter() {
@@ -58,12 +61,14 @@ class Keypad extends React.Component {
             alert("Minimum 4 digit code require");
         } // The player had guessed a correct number and its correct location
         else if(this.state.secretNum.join("") === this.state.guessNum.join("")) {
+            this.handleStopMusic();
             this.setState({win: true})
             console.log("you win");
         } else {
             // The player has a incorrect guess
             this.setState({numAttempts: this.state.numAttempts - 1})
             if(this.state.numAttempts <= 1) {
+                this.handleStopMusic();
                 console.log("you lose")
                 return;
             }
@@ -116,6 +121,17 @@ class Keypad extends React.Component {
         audio.play();
     }
 
+    handleStopMusic() {
+        const audio = document.getElementById("audio-container");
+        audio.pause();
+        audio.currentTime = 0;
+    }
+
+    handlePauseMusic() {
+        const audio = document.getElementById("audio-container");
+        audio.pause();
+    }
+
     render() {
         const idx = this.state.guessNum.length - 1;
         const backSpace = "<--";
@@ -156,13 +172,17 @@ class Keypad extends React.Component {
                         <button id="buttonC" onClick={this.handleClear}>Clear</button>
                         <button id="buttonE" onClick={this.handleEnter}>Enter</button>
                     </div>
+                    <div>
+                        <button onClick={this.handlePauseMusic}>Pause</button>
+                        <button onClick={this.handlePlayMusic}>Resume</button>
+                    </div>
                 </div>
 
                 <div className="feedback-container">
                     <h1 className="attempt-header">Attempts Remaining: {this.state.numAttempts}</h1>
                     <h2>Timer: {this.state.time}</h2>
                     {this.state.showModal ? <Modal handleStart={this.handleStart}/> : ""}
-                    {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal handleRestart={this.handleRestart} win={this.state.win} /> : ""}
+                    {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal handleRestart={this.handleRestart} win={this.state.win} />: ""}
                     <div>
                         {this.state.table.slice().reverse().map((arr, i) => {
                             return(
@@ -174,7 +194,7 @@ class Keypad extends React.Component {
                             )
                         })}
                     </div>
-                    <audio id="audio-container">
+                    <audio id="audio-container" loop>
                         <source src="https://ia803101.us.archive.org/24/items/KahootLobbyMusic/Kahoot%20Lobby%20Music%20%28HD%29.mp3"></source>
                     </audio>
                 </div>

@@ -5,10 +5,7 @@ import Music from './Music'
 const App = () => {
     return (
         <div>
-            {/* Play Mastermind! */}
             <Keypad />
-            {/* <Music /> */}
-            {/* <Modal bool={true}/> */}
         </div>
     )
 }
