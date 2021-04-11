@@ -201,7 +201,7 @@ class Keypad extends React.Component {
         }
 
         return (
-            <div className="outer-outer-container">
+            <div>
                 <div className="keypad-outer-container">
                     <div>
                         <h1 className="left-header">Guess the secret code</h1>

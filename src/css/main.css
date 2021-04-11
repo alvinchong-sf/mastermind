@@ -33,12 +33,18 @@
 }
 
 .modal-button {
-    height: 40px;
-    width: 110px;
+    height: 45px;
+    width: 120px;
+    font-size: 18px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    position: relative;
 }
 
 .modal-button:hover {
     cursor: pointer;
+    top: -3px;
 }
 
 .number-button-container button {
@@ -54,7 +60,8 @@
 }
 
 .number-button-container button:hover, 
-.enter-clear-delete-container button:hover {
+.enter-clear-delete-container button:hover,
+.music-button-container button:hover {
     cursor: pointer;
     filter:brightness(100%);
 }
