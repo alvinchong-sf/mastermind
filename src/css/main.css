@@ -133,13 +133,28 @@
     align-items: center;
 }
 
-#hello {
-    /* border: 1px solid black; */
-}
-
 .code-enter {
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 40px;
 }
+
+.music-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.music-button-container {
+    margin-top: -16px;
+}
+
+.music-button-container button {
+    margin-right: 2px;
+}
+
+.music-heading {
+    margin-left: 7px;
+}
+

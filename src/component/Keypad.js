@@ -1,6 +1,9 @@
 import React from 'react';
 import Modal from './modals/Modal';
 import GameOverModal from './modals/Game_over_modal';
+import IncorrectGuess from '../audio/incorrect_guess.mp3';
+import Win from '../audio/win.mp3';
+import GameOver from '../audio/game_over.mp3';
 
 class Keypad extends React.Component {
 
@@ -63,18 +66,21 @@ class Keypad extends React.Component {
         else if(this.state.secretNum.join("") === this.state.guessNum.join("")) {
             this.handleStopMusic();
             this.setState({win: true})
+            this.handleWinAudio();
             console.log("you win");
         } else {
             // The player has a incorrect guess
             this.setState({numAttempts: this.state.numAttempts - 1})
             if(this.state.numAttempts <= 1) {
                 this.handleStopMusic();
+                this.handleGameOverAudio();
                 console.log("you lose")
                 return;
             }
             this.setState({table: this.state.table.concat([[this.state.guessNum, numExact, numNear]])})
             this.handleClear();
             console.log("try again");
+            this.handleIncorrectGuess();
         }
     }
 
@@ -132,6 +138,21 @@ class Keypad extends React.Component {
         audio.pause();
     }
 
+    handleIncorrectGuess() {
+        const audio = new Audio(IncorrectGuess);
+        audio.play();
+    }
+
+    handleWinAudio() {
+        const audio = new Audio(Win);
+        audio.play();
+    }
+
+    handleGameOverAudio() {
+        const audio = new Audio(GameOver);
+        audio.play();
+    }
+
     render() {
         const idx = this.state.guessNum.length - 1;
         const backSpace = "<--";
@@ -152,6 +173,7 @@ class Keypad extends React.Component {
             <div className="keypad-outer-container">
                 <div id="hello">
                     <h1>Guess the secret code</h1>
+                    {/* <h2>{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
                     <h2 className="code-enter">{result}</h2>
                     <div className="number-button-container">
                         <button id="button1" onClick={this.handleClick} value="1">1</button>
@@ -172,9 +194,14 @@ class Keypad extends React.Component {
                         <button id="buttonC" onClick={this.handleClear}>Clear</button>
                         <button id="buttonE" onClick={this.handleEnter}>Enter</button>
                     </div>
-                    <div>
-                        <button onClick={this.handlePauseMusic}>Pause</button>
-                        <button onClick={this.handlePlayMusic}>Resume</button>
+                    <div className="music-container">
+                        <div>
+                            <h4 className="music-heading">Music Controls</h4>
+                            <div className="music-button-container">
+                                <button onClick={this.handlePlayMusic}>Resume</button>
+                                <button onClick={this.handlePauseMusic}>Pause</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
