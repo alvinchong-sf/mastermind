@@ -36,12 +36,13 @@ class Keypad extends React.Component {
     async handleNewCode() {
         const url = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
         const response = await fetch(url);
-        // if(!response.ok) throw new Error(`Error! status: ${response.status}`);
+        if(!response.ok) console.log(`Error! status: ${response.status}`);
         const data = await response.text();
         const arr = data.split("\n");
         const newArr = arr.slice(0, arr.length - 1)
         this.setState({secretNum: newArr});
-        console.log(`This is the secret code ${this.state.secretNum}`);
+        // this.setState({secretNum: ["1","2","3","4"]});  // use for testing
+        console.log(`This is the secret code ${this.state.secretNum}`); // for developers to cheat
     }
 
     handleStart() {
@@ -102,6 +103,7 @@ class Keypad extends React.Component {
     }
 
     handleNumExactMatches() {
+        // time o(n) | space o(1)
         let counter = 0;
         for(let i = 0; i < this.state.guessNum.length; i++) {
             if(this.state.guessNum[i] === this.state.secretNum[i]) counter++
@@ -111,11 +113,19 @@ class Keypad extends React.Component {
 
     handleNumNearMatches() {
         // The player had guess a correct number (number exist but not at the right location)
+        // time o(n) | space o(n)
+
         let counter = 0;
+        let copyArr = this.state.secretNum.slice();
+
         for(let i = 0; i < this.state.guessNum.length; i++) {
-            const secretCode = this.state.secretNum;
-            const currNum = this.state.guessNum[i];
-            if(secretCode.includes(currNum) && secretCode[i] !== currNum) {
+            if(this.state.guessNum[i] === this.state.secretNum[i]) {
+                copyArr[i] = true;
+            }
+        }
+  
+        for(let j = 0; j < this.state.guessNum.length; j++) {
+            if(copyArr.includes(this.state.guessNum[j]) && this.state.guessNum[j] !== copyArr[j]) {
                 counter++
             }
         }
@@ -173,7 +183,7 @@ class Keypad extends React.Component {
             <div className="keypad-outer-container">
                 <div id="hello">
                     <h1>Guess the secret code</h1>
-                    {/* <h2>{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
+                    {/* <h2 className="code-enter">{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
                     <h2 className="code-enter">{result}</h2>
                     <div className="number-button-container">
                         <button id="button1" onClick={this.handleClick} value="1">1</button>

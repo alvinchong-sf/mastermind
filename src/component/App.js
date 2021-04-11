@@ -1,6 +1,6 @@
 import React from "react";
 import Keypad from './Keypad';
-import Music from './Music'
+// import Music from './Music'
 
 const App = () => {
     return (

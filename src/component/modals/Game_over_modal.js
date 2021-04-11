@@ -7,7 +7,7 @@ const GameOverModal = (props) => {
     const loseMsg = "Better luck next time"
     return (
         <div className="outer-modal">
-            <div className="inner-modal">
+            <div id="game-over-modal" className="inner-modal">
                 <h1 className="modal-header">{props.win ? winHeader : loseHeader}</h1>
                 <h2 className="modal-header">{props.win ? winMsg : loseMsg}</h2>
                 <div className="modal-button-container">

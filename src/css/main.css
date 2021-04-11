@@ -21,6 +21,10 @@
     border-radius: 5px;
 }
 
+#game-over-modal {
+    height: 200px;
+}
+
 .modal-header {
     display: flex;
     align-items: center;
@@ -36,6 +40,10 @@
 .modal-button {
     height: 40px;
     width: 110px;
+}
+
+.modal-button:hover {
+    cursor: pointer;
 }
 
 .number-button-container button {
