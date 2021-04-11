@@ -16,7 +16,8 @@ class Keypad extends React.Component {
             showModal: true,
             table: [],
             win: false,
-            time: 60,
+            score: 100,
+            timer: 300
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
@@ -27,6 +28,8 @@ class Keypad extends React.Component {
         this.handleStopMusic = this.handleStopMusic.bind(this);
         this.handlePlayMusic = this.handlePlayMusic.bind(this);
         this.handlePauseMusic = this.handlePauseMusic.bind(this);
+        this.handleCountDown = this.handleCountDown.bind(this);
+        this.interval = null;
     }
 
     componentDidMount() {
@@ -48,12 +51,16 @@ class Keypad extends React.Component {
     handleStart() {
         this.setState({showModal: !this.state.showModal});
         this.handlePlayMusic();
+        this.handleInterval();
+        console.log(this.name);
+        // this.handleCountDown();
     }
 
     handleRestart() {
-        this.setState({guessNum: [], numAttempts: 10, table: [], win: false});
+        this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300});
         this.handleNewCode();
         this.handlePlayMusic();
+        this.handleInterval();
     }
 
     handleEnter() {
@@ -71,7 +78,7 @@ class Keypad extends React.Component {
             console.log("you win");
         } else {
             // The player has a incorrect guess
-            this.setState({numAttempts: this.state.numAttempts - 1})
+            this.setState({numAttempts: this.state.numAttempts - 1, score: this.state.score - 10})
             if(this.state.numAttempts <= 1) {
                 this.handleStopMusic();
                 this.handleGameOverAudio();
@@ -93,7 +100,7 @@ class Keypad extends React.Component {
 
     handleDelete(idx) {
         return (e) => {
-            const newList = this.state.guessNum.filter((num, i) => i !== idx);
+            const newList = this.state.guessNum.slice(0, idx);
             this.setState({guessNum: newList});
         }
     }
@@ -163,6 +170,20 @@ class Keypad extends React.Component {
         audio.play();
     }
 
+    handleCountDown() {
+        this.setState({timer: this.state.timer - 1});
+        if(this.state.timer === 0) {
+            clearInterval(this.interval);
+            this.setState({numAttempts: 0})
+            this.handleStopMusic();
+            this.handleGameOverAudio();
+        }
+    }
+
+    handleInterval() {
+        this.interval = setInterval(this.handleCountDown, 1000);
+    }
+
     render() {
         const idx = this.state.guessNum.length - 1;
         const backSpace = "<--";
@@ -208,8 +229,8 @@ class Keypad extends React.Component {
                         <div>
                             <h4 className="music-heading">Music Controls</h4>
                             <div className="music-button-container">
-                                <button onClick={this.handlePlayMusic}>Resume</button>
                                 <button onClick={this.handlePauseMusic}>Pause</button>
+                                <button onClick={this.handlePlayMusic}>Resume</button>
                             </div>
                         </div>
                     </div>
@@ -217,9 +238,14 @@ class Keypad extends React.Component {
 
                 <div className="feedback-container">
                     <h1 className="attempt-header">Attempts Remaining: {this.state.numAttempts}</h1>
-                    <h2>Timer: {this.state.time}</h2>
+                    <h2>Timer: {this.state.timer}</h2>
                     {this.state.showModal ? <Modal handleStart={this.handleStart}/> : ""}
-                    {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal handleRestart={this.handleRestart} win={this.state.win} />: ""}
+                    {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal 
+                                                                        handleRestart={this.handleRestart} 
+                                                                        win={this.state.win} 
+                                                                        score={this.state.score}
+                                                                        timer={this.state.timer}
+                                                                        />: ""}
                     <div>
                         {this.state.table.slice().reverse().map((arr, i) => {
                             return(
