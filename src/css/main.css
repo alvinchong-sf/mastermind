@@ -15,23 +15,18 @@
 }
 
 .inner-modal {
-    width: 500px;
-    height: 150px;
-    background-color: whitesmoke;
+    width: 60%;
+    height: 45%;
+    background-color: #0072b1;
     border-radius: 5px;
+    color: whitesmoke;
 }
 
 #game-over-modal {
     height: 250px;
 }
 
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-button-container {
+.modal-header, .modal-button-container, .music-container, .feedback-header, .attempt-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -130,15 +125,10 @@
 
 .feedback-container {
     border: 1px solid lightgray;
-    width: 33%;
-    background-color: lightgray;
+    width: 100%;
+    height: 85%;
+    background-color: #FFD55A;
     border-radius: 10px;
-}
-
-.attempt-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .code-enter {
@@ -146,12 +136,6 @@
     align-items: center;
     justify-content: center;
     font-size: 40px;
-}
-
-.music-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .music-button-container {
@@ -164,5 +148,42 @@
 
 .music-heading {
     margin-left: 7px;
+}
+
+.footer {
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 43px;
+}
+
+.instructions {
+    margin-left: 15px;
+}
+
+.content {
+    width: 95%;
+    margin-left: 15px;
+}
+
+.feedback-list-container li, .feedback-header {
+    font-size: 20px;
+}
+
+.feedback-title {
+    color: green;
+}
+
+.feedback-answer {
+    color: #293250;
+}
+
+.left-header, .attempt-header, .code-enter, .timer-color-left, .feedback-header, .footer {
+    color: #0072b1;
+}
+
+.timer-color-right {
+    color: #F95700FF;
 }
 

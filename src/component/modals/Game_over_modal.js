@@ -4,7 +4,7 @@ const GameOverModal = (props) => {
     const winHeader = "You Win!";
     const loseHeader = "You Lose!";
     const winMsg = "Try Again?";
-    const loseMsg = "Better luck next time";
+    const loseMsg = "Better luck next time!";
     return (
         <div className="outer-modal">
             <div id="game-over-modal" className="inner-modal">

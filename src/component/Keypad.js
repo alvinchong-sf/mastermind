@@ -201,67 +201,76 @@ class Keypad extends React.Component {
         }
 
         return (
-            <div className="keypad-outer-container">
-                <div id="hello">
-                    <h1>Guess the secret code</h1>
-                    {/* <h2 className="code-enter">{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
-                    <h2 className="code-enter">{result}</h2>
-                    <div className="number-button-container">
-                        <button id="button1" onClick={this.handleClick} value="1">1</button>
-                        <button id="button2" onClick={this.handleClick} value="2">2</button>
-                        <button id="button3" onClick={this.handleClick} value="3">3</button>
-                    </div>
-                    <div className="number-button-container">
-                        <button id="button4" onClick={this.handleClick} value="4">4</button>
-                        <button id="button5" onClick={this.handleClick} value="5">5</button>
-                        <button id="button6" onClick={this.handleClick} value="6">6</button>
-                    </div>
-                    <div className="number-button-container">
-                        <button id="button7" onClick={this.handleClick} value="7">7</button>
-                        <button id="button0" onClick={this.handleClick} value="0">0</button>
-                        <button id="buttonD" onClick={this.handleDelete(idx)}>{backSpace}</button>
-                    </div>
-                    <div className="enter-clear-delete-container">
-                        <button id="buttonC" onClick={this.handleClear}>Clear</button>
-                        <button id="buttonE" onClick={this.handleEnter}>Enter</button>
-                    </div>
-                    <div className="music-container">
-                        <div>
-                            <h4 className="music-heading">Music Controls</h4>
-                            <div className="music-button-container">
-                                <button onClick={this.handlePauseMusic}>Pause</button>
-                                <button onClick={this.handlePlayMusic}>Resume</button>
+            <div className="outer-outer-container">
+                <div className="keypad-outer-container">
+                    <div>
+                        <h1 className="left-header">Guess the secret code</h1>
+                        {/* <h2 className="code-enter">{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
+                        <h2 className="code-enter">{result}</h2>
+                        <div className="number-button-container">
+                            <button id="button1" onClick={this.handleClick} value="1">1</button>
+                            <button id="button2" onClick={this.handleClick} value="2">2</button>
+                            <button id="button3" onClick={this.handleClick} value="3">3</button>
+                        </div>
+                        <div className="number-button-container">
+                            <button id="button4" onClick={this.handleClick} value="4">4</button>
+                            <button id="button5" onClick={this.handleClick} value="5">5</button>
+                            <button id="button6" onClick={this.handleClick} value="6">6</button>
+                        </div>
+                        <div className="number-button-container">
+                            <button id="button7" onClick={this.handleClick} value="7">7</button>
+                            <button id="button0" onClick={this.handleClick} value="0">0</button>
+                            <button id="buttonD" onClick={this.handleDelete(idx)}>{backSpace}</button>
+                        </div>
+                        <div className="enter-clear-delete-container">
+                            <button id="buttonC" onClick={this.handleClear}>Clear</button>
+                            <button id="buttonE" onClick={this.handleEnter}>Enter</button>
+                        </div>
+                        <div className="music-container">
+                            <div>
+                                <h4 className="music-heading">Music Controls</h4>
+                                <div className="music-button-container">
+                                    <button onClick={this.handlePauseMusic}>Pause</button>
+                                    <button onClick={this.handlePlayMusic}>Resume</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="feedback-container">
-                    <h1 className="attempt-header">Attempts Remaining: {this.state.numAttempts}</h1>
-                    <h2>Timer: {this.state.timer}</h2>
-                    {this.state.showModal ? <Modal handleStart={this.handleStart}/> : ""}
-                    {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal 
-                                                                        handleRestart={this.handleRestart} 
-                                                                        win={this.state.win} 
-                                                                        score={this.state.score}
-                                                                        timer={this.state.timer}
-                                                                        />: ""}
                     <div>
-                        {this.state.table.slice().reverse().map((arr, i) => {
-                            return(
-                                <ul key={i}>
-                                    <li>Incorrect Guess: {arr[0]}</li>
-                                    <li>Exact Matches: {arr[1]}</li>
-                                    <li>Near Matches: {arr[2]}</li>
-                                </ul>
-                            )
-                        })}
+                        <h1 className="attempt-header">Attempts Remaining: {this.state.numAttempts}</h1>
+                        <h2><span className="timer-color-left">Timer:</span><span className="timer-color-right"> {this.state.timer}</span></h2>
+                            {this.state.showModal ? <Modal handleStart={this.handleStart}/> : ""}
+                            {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal 
+                                                                                handleRestart={this.handleRestart} 
+                                                                                win={this.state.win} 
+                                                                                score={this.state.score}
+                                                                                timer={this.state.timer}
+                                                                                />: ""}
+                        <div className="feedback-container">
+                            <h3 className="feedback-header">Feedback</h3>
+                            <div>
+                                {this.state.table.slice().reverse().map((arr, i) => {
+                                    return(
+                                        <ul key={i} className="feedback-list-container">
+                                            <li><span className="feedback-title">Incorrect Guess:</span><span className="feedback-answer"> {arr[0]}</span></li>
+                                            <li><span className="feedback-title">Exact Matches:</span><span className="feedback-answer"> {arr[1]}</span></li>
+                                            <li><span className="feedback-title">Near Matches:</span><span className="feedback-answer"> {arr[2]}</span></li>
+                                            {/* <li>Exact Matches: {arr[1]}</li>
+                                            <li>Near Matches: {arr[2]}</li> */}
+                                        </ul>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                        <audio id="audio-container" loop>
+                            <source src="https://ia803101.us.archive.org/24/items/KahootLobbyMusic/Kahoot%20Lobby%20Music%20%28HD%29.mp3"></source>
+                        </audio>
                     </div>
-                    <audio id="audio-container" loop>
-                        <source src="https://ia803101.us.archive.org/24/items/KahootLobbyMusic/Kahoot%20Lobby%20Music%20%28HD%29.mp3"></source>
-                    </audio>
                 </div>
-
+                 <footer className="footer">
+                    2021 Designed and Developed by Alvin Chong
+                </footer>
             </div>
         )
     }
