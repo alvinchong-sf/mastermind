@@ -63,6 +63,13 @@ class Keypad extends React.Component {
         this.handleInterval();
     }
 
+    handleGameOver() {
+        // code below won't work yet
+        // !this.state.win ? this.handleWinAudio() : this.handleLoseAudio();
+        this.handleStopMusic();
+        clearInterval(this.interval);
+    }
+
     handleEnter() {
         const numExact = this.handleNumExactMatches();
         const numNear = this.handleNumNearMatches(); 
@@ -72,23 +79,23 @@ class Keypad extends React.Component {
             alert("Minimum 4 digit code require");
         } // The player had guessed a correct number and its correct location
         else if(this.state.secretNum.join("") === this.state.guessNum.join("")) {
-            this.handleStopMusic();
             this.setState({win: true})
-            this.handleWinAudio();
+            this.handleGameOver();
+            this.handleWinAudio()
             console.log("you win");
         } else {
             // The player has a incorrect guess
             this.setState({numAttempts: this.state.numAttempts - 1, score: this.state.score - 10})
             if(this.state.numAttempts <= 1) {
-                this.handleStopMusic();
-                this.handleGameOverAudio();
+                this.handleGameOver();
+                this.handleLoseAudio();
                 console.log("you lose")
                 return;
             }
             this.setState({table: this.state.table.concat([[this.state.guessNum, numExact, numNear]])})
             this.handleClear();
+            this.handleIncorrectGuessAudio();
             console.log("try again");
-            this.handleIncorrectGuess();
         }
     }
 
@@ -155,7 +162,7 @@ class Keypad extends React.Component {
         audio.pause();
     }
 
-    handleIncorrectGuess() {
+    handleIncorrectGuessAudio() {
         const audio = new Audio(IncorrectGuess);
         audio.play();
     }
@@ -165,7 +172,7 @@ class Keypad extends React.Component {
         audio.play();
     }
 
-    handleGameOverAudio() {
+    handleLoseAudio() {
         const audio = new Audio(GameOver);
         audio.play();
     }
@@ -173,14 +180,13 @@ class Keypad extends React.Component {
     handleCountDown() {
         this.setState({timer: this.state.timer - 1});
         if(this.state.timer === 0) {
-            clearInterval(this.interval);
             this.setState({numAttempts: 0})
-            this.handleStopMusic();
-            this.handleGameOverAudio();
+            this.handleGameOver();
         }
     }
 
     handleInterval() {
+        clearInterval(this.interval);
         this.interval = setInterval(this.handleCountDown, 1000);
     }
 
@@ -202,6 +208,7 @@ class Keypad extends React.Component {
 
         return (
             <div>
+                {/* Main Game Interaction UI */}
                 <div className="keypad-outer-container">
                     <div>
                         <h1 className="left-header">Guess the secret code</h1>
@@ -226,6 +233,8 @@ class Keypad extends React.Component {
                             <button id="buttonC" onClick={this.handleClear}>Clear</button>
                             <button id="buttonE" onClick={this.handleEnter}>Enter</button>
                         </div>
+
+                        {/* Music Component */}
                         <div className="music-container">
                             <div>
                                 <h4 className="music-heading">Music Controls</h4>
@@ -237,16 +246,20 @@ class Keypad extends React.Component {
                         </div>
                     </div>
 
-                    <div>
+                    <div> 
+                        {/* Time && Attempts Remaning */}
                         <h1 className="attempt-header">Attempts Remaining: {this.state.numAttempts}</h1>
                         <h2><span className="timer-color-left">Timer:</span><span className="timer-color-right"> {this.state.timer}</span></h2>
+
+                        {/* Game Opening Modal and Game Over Modal */}
                             {this.state.showModal ? <Modal handleStart={this.handleStart}/> : ""}
                             {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal 
                                                                                 handleRestart={this.handleRestart} 
                                                                                 win={this.state.win} 
                                                                                 score={this.state.score}
                                                                                 timer={this.state.timer}
-                                                                                />: ""}
+                                                                                />: ""} 
+                        {/* Feedback History */}
                         <div className="feedback-container">
                             <h3 className="feedback-header">Feedback</h3>
                             <div>
@@ -256,8 +269,6 @@ class Keypad extends React.Component {
                                             <li><span className="feedback-title">Incorrect Guess:</span><span className="feedback-answer"> {arr[0]}</span></li>
                                             <li><span className="feedback-title">Exact Matches:</span><span className="feedback-answer"> {arr[1]}</span></li>
                                             <li><span className="feedback-title">Near Matches:</span><span className="feedback-answer"> {arr[2]}</span></li>
-                                            {/* <li>Exact Matches: {arr[1]}</li>
-                                            <li>Near Matches: {arr[2]}</li> */}
                                         </ul>
                                     )
                                 })}
