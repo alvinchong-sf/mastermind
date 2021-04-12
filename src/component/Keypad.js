@@ -42,7 +42,7 @@ class Keypad extends React.Component {
         if(!response.ok) console.log(`Error! status: ${response.status}`);
         const data = await response.text();
         const arr = data.split("\n");
-        const newArr = arr.slice(0, arr.length - 1)
+        const newArr = arr.slice(0, arr.length - 1);
         this.setState({secretNum: newArr});
         // this.setState({secretNum: ["1","2","3","4"]});  // use for testing
         console.log(`This is the secret code ${this.state.secretNum}`); // for developers to cheat
