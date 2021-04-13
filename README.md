@@ -10,7 +10,7 @@ Mastermind is a guessing code game where a User can play against the computer. T
 
 ### Prerequisites
 Node.js is required for Mastermind to operate
-### [Click here to install Node.js](https://nodejs.dev/learn/how-to-install-nodejs)
+[Click here to install Node.js](https://nodejs.dev/learn/how-to-install-nodejs)
 
 ### Setting Up and Running the App
 Please run the following:
