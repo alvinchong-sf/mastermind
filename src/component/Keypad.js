@@ -12,6 +12,7 @@ class Keypad extends React.Component {
         this.state = {
             guessNum: [],
             secretNum: [],
+            errors: "",
             numAttempts: 10,
             showModal: true,
             table: [],
@@ -39,7 +40,7 @@ class Keypad extends React.Component {
     async handleNewCode() {
         const url = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
         const response = await fetch(url);
-        if(!response.ok) console.log(`Error! status: ${response.status}`);
+        if(!response.ok) this.setState({errors: `Error! status: ${response.status}, please reload the page!`});
         const data = await response.text();
         const arr = data.split("\n");
         const newArr = arr.slice(0, arr.length - 1);
@@ -211,6 +212,7 @@ class Keypad extends React.Component {
                 <div className="keypad-outer-container">
                     <div>
                         <h1 className="left-header">Guess the secret code</h1>
+                        <h1 className="random-code-error">{this.state.errors.length > 1 ? this.state.errors : ""}</h1>
                         {/* <h2 className="code-enter">{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
                         <h2 className="code-enter">{result}</h2>
                         <div className="number-button-container">
