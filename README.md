@@ -21,7 +21,7 @@ npm start
 ```
 
 ## Features
-### 1. Stargame Modal
+### 1. Start Game Modal
 
 ### 2.Main game Layout
 
