@@ -22,14 +22,21 @@ npm start
 
 ## Features
 ### 1. Start Game Modal
+  * Ready to play? Start the game with a click of a button!
 <img src="./public/images/start_game.png" height="300" >
 
 ### 2. Main game Layout
+  * User can use the keypad UI to guess the 4 digit "secret code".
+  * User can backspace a code if enter incorrectly or clear all code inputs.
+  * Feedback is shown on the right that list the previous code, number of exact matches and number of near matches.
+  * Beat the game before the timer runs out or in under 10 attempts. 
+  * Music control on bottom left to pause and resume music.
 <img src="./public/images/game.png" height="300" >
 
 ### 3. Game Over Modal
+  * Replay the game and beat your previous score!
 <img src="./public/images/end_game.png" height="300" >
 
-## Future Considerations
+## Upcoming Features
 * Add Support to give hints
 * Add "difficulty level"
