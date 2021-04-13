@@ -215,6 +215,8 @@ class Keypad extends React.Component {
                         <h1 className="random-code-error">{this.state.errors.length > 1 ? this.state.errors : ""}</h1>
                         {/* <h2 className="code-enter">{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
                         <h2 className="code-enter">{result}</h2>
+                        <div className="underscores">
+                        </div>
                         <div className="number-button-container">
                             <button id="button1" onClick={this.handleClick} value="1">1</button>
                             <button id="button2" onClick={this.handleClick} value="2">2</button>
