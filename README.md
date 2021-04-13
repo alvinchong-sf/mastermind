@@ -23,9 +23,9 @@ npm start
 ## Features
 ### 1. Start Game Modal
 <img src="./public/images/start_game.png" height="300" >
-### 2.Main game Layout
+### 2. Main game Layout
 <img src="./public/images/game.png" height="300" >
-### 3.Game Over Modal
+### 3. Game Over Modal
 <img src="./public/images/end_game.png" height="300" >
 
 ## Future Considerations
