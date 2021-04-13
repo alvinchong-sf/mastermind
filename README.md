@@ -40,17 +40,18 @@ npm start
  * Implemented score tracker.
 
 ### April 10th Saturday
- * Incorporated Timer to the entire game
- * Finishing touches with CSS styling
+ * Incorporated Timer to the entire game.
+ * Finishing touches with CSS styling.
 
 
 ### April 12th Monday
- * ReadMe
- * Designed and Planning for Difficulty Level and Hints functionality
- * Finishing Touches
+ * ReadMe.
+ * Designed and Planning for Difficulty Level and Hints functionality.
+ * Finishing Touches.
 
 ### April 13th Tuesday
- * Refactor codes to make it DRY
+ * Refactor codes to make it DRY.
+ * Research on writing test in react.
 
 ## Features
 ### 1. Start Game Modal
