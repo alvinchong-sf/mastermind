@@ -37,5 +37,6 @@ npm start
 <img src="./public/images/end_game.png" height="300" >
 
 ## Upcoming Features
-* Add Support to give hints
+* Writing test units
+* Add support to give hints
 * Add "difficulty level"

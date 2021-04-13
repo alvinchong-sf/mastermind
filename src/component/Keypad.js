@@ -53,7 +53,6 @@ class Keypad extends React.Component {
         this.handlePlayMusic();
         this.handleInterval();
         console.log(this.name);
-        // this.handleCountDown();
     }
 
     handleRestart() {
@@ -77,8 +76,8 @@ class Keypad extends React.Component {
         // if the guess code is not at least 4 numbers
         if(this.state.guessNum.length < 4) {
             alert("Minimum 4 digit code require");
-        } // The player had guessed a correct number and its correct location
-        else if(this.state.secretNum.join("") === this.state.guessNum.join("")) {
+        } // The player had guessed the secret code
+        else if(this.state.secretNum.join("") === this.state.guessNum.join("")) {  // o(n) linear
             this.setState({win: true})
             this.handleGameOver();
             this.handleWinAudio()
@@ -92,7 +91,7 @@ class Keypad extends React.Component {
                 console.log("you lose")
                 return;
             }
-            this.setState({table: this.state.table.concat([[this.state.guessNum, numExact, numNear]])})
+            this.setState({table: this.state.table.concat([[this.state.guessNum, numExact, numNear]])}) // o(n) linear | concat because can't mutate state
             this.handleClear();
             this.handleIncorrectGuessAudio();
             console.log("try again");
