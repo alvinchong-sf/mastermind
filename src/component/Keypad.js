@@ -53,7 +53,6 @@ class Keypad extends React.Component {
         this.setState({showModal: !this.state.showModal});
         this.handlePlayMusic();
         this.handleInterval();
-        console.log(this.name);
     }
 
     handleRestart() {
