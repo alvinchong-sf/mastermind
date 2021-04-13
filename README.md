@@ -19,6 +19,39 @@ npm install
 npm start
 ```
 
+## Work Breakdown
+
+### April 6th Tuesday
+ * Design and Planning - 1/2 Day
+
+### April 7th Wednesday
+ * Build out HTLM Layout and User Interface.
+ * Implemented core game rules.
+ * Programmed computer response with correct number guess, incorrect number guess and correct number but wrong position guess.
+
+### April 8th Thursday
+ * Produced the ability to view history of guesses and their feedback.
+ * Incorporated Random Number Generator API using React built in Asynchronous function.
+ * Started basic CSS styling.
+
+### April 9th Friday
+ * Improved overall styling.
+ * Introduced audio and sound effects.
+ * Implemented score tracker.
+
+### April 10th Saturday
+ * Incorporated Timer to the entire game
+ * Finishing touches with CSS styling
+
+
+### April 12th Monday
+ * ReadMe
+ * Designed and Planning for Difficulty Level and Hints functionality
+ * Finishing Touches
+
+### April 13th Tuesday
+ * Refactor codes to make it DRY
+
 ## Features
 ### 1. Start Game Modal
   * Ready to play? Start the game with a click of a button!
