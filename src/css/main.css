@@ -132,7 +132,8 @@
 
 .feedback-container {
     border: 1px solid lightgray;
-    width: 100%;
+    /* width: 100%; */
+    width: 380px;
     height: 85%;
     background-color: #FFD55A;
     border-radius: 10px;
