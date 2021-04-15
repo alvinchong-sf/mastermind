@@ -21,7 +21,8 @@ class Keypad extends React.Component {
             score: 100,
             timer: 300,
             difficulty: null,
-            showHintModal: false
+            showHintModal: false,
+            hintLife: 1
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
@@ -234,7 +235,7 @@ class Keypad extends React.Component {
             this.interval = setInterval(this.handleCountDown, 1000);
             this.handlePlayMusic();
         }
-        this.setState({showHintModal: !this.state.showHintModal})
+        this.setState({showHintModal: !this.state.showHintModal, hintLife: this.state.hintLife - 1})
     }
 
     render() {
@@ -315,14 +316,17 @@ class Keypad extends React.Component {
                     </div>
 
                     <div> 
-                        {/* Time && Attempts Remaning */}
+                        {/* Timer, Attempts Remaning, Hint Button */}
                         <h1 className="attempt-header">Attempts Remaining: {this.state.numAttempts}</h1>
                         <div className="timer-hint-container">
                             <h2>
                                 <span className="timer-color-left">Timer:</span><span className="timer-color-right"> {this.state.timer}</span>
                             </h2>
                             <div>
-                                <button onClick={this.handleShowHintModal}>Hint</button>
+                                {this.state.hintLife > 0 ? 
+                                    <button className="hint-button" onClick={this.handleShowHintModal}><div>Hint</div>(limit 1 per game!)</button> :
+                                    <button className="fake-hint-button">Hint (Unavailable!)</button>
+                                }
                             </div>
                         </div>
 

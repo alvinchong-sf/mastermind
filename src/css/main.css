@@ -28,7 +28,7 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,10 +36,17 @@
 
 .inner-hint-modal {
     width: 40%;
-    height: 35%;
+    height: 25%;
     background-color: #0072b1;
     border-radius: 5px;
     color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hint-button-container button:hover {
+    cursor: pointer;
 }
 
 .timer-hint-container {
@@ -47,27 +54,38 @@
     justify-content: space-evenly;
 }
 
+.hint-header {
+    font-size: 20px;
+}
+
 #game-over-modal {
     height: 250px;
 }
 
-.modal-header, .modal-button-container, .music-container, .feedback-header, .attempt-header {
+.modal-header, 
+.modal-button-container, 
+.music-container, 
+.feedback-header, 
+.attempt-header,
+.hint-button-container {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .modal-button {
-    height: 45px;
+    height: 50px;
     width: 120px;
     font-size: 18px;
     border-radius: 10px;
     outline: none;
     border: none;
     position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-.modal-button:hover {
+.modal-button:hover, .hint-button:hover {
     cursor: pointer;
     top: -3px;
 }
@@ -232,5 +250,34 @@
 
 .underscores span {
     font-size: 40px;
+}
+
+.fake-hint-button {
+    width: 130px;
+    height: 55px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    color: whitesmoke;
+    background-color: darkgray;
+}
+
+.hint-button {
+    width: 130px;
+    height: 55px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    color: whitesmoke;
+    background-color: green;
+    position: relative;
+}
+
+.hint-button div {
+    font-size: 17px;
+}
+
+.fake-hint-button:hover {
+    cursor: not-allowed;
 }
 

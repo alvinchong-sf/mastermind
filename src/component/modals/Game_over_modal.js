@@ -12,8 +12,8 @@ const GameOverModal = (props) => {
                 <h2 className="modal-header">{props.timer === 0 ? "Out of time!" : `Score ${props.score}/100!`}</h2>
                 <h2 className="modal-header">{props.win ? winMsg : loseMsg}</h2>
                 <div className="modal-button-container">
-                    <button className="modal-button" onClick={props.handleRestartMedium}>Restart Game(Medium)</button>
-                    <button className="modal-button" onClick={props.handleRestartHard}>Restart Game(Hard)</button>
+                    <button className="modal-button" onClick={props.handleRestartMedium}>Restart (normal)</button>
+                    <button className="modal-button" onClick={props.handleRestartHard}>Restart (hard)</button>
                 </div>
             </div>
         </div>
