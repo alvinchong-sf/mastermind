@@ -5,7 +5,7 @@ import IncorrectGuess from '../audio/incorrect_guess.mp3';
 import Win from '../audio/win.mp3';
 import GameOver from '../audio/game_over.mp3';
 import HintModal from './modals/hint_modal';
-import Response from './response';
+// import Response from './response';
 
 class Keypad extends React.Component {
 
@@ -242,6 +242,8 @@ class Keypad extends React.Component {
     render() {
         const idx = this.state.guessNum.length - 1;
         const backSpace = "<--";
+        let normal = "__ __ __ __";
+        let hard = "__ __ __ __ __ __"
 
         return (
             <div>
@@ -251,7 +253,9 @@ class Keypad extends React.Component {
                         <h1 className="left-header">Guess the secret code</h1>
                         <h1 className="random-code-error">{this.state.errors.length > 1 ? this.state.errors : ""}</h1>
                         {/* <h2 className="code-enter">{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
-                        <h2 className="code-enter"><Response difficulty={this.state.difficulty} guessNum={this.state.guessNum} /></h2>
+                        <h2 className="code-enter">
+                            {this.state.guessNum.length === 0 ? (this.state.difficulty === "medium" ? normal : hard) : this.state.guessNum.join(" ")}
+                        </h2>
                         <div className="number-button-container">
                             <button id="button1" onClick={this.handleClick} value="1">1</button>
                             <button id="button2" onClick={this.handleClick} value="2">2</button>
