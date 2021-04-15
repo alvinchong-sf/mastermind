@@ -242,16 +242,6 @@
     color: red;
 }
 
-.underscores {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.underscores span {
-    font-size: 40px;
-}
-
 .fake-hint-button {
     width: 130px;
     height: 55px;
@@ -279,5 +269,10 @@
 
 .fake-hint-button:hover {
     cursor: not-allowed;
+}
+
+.cancel-button {
+    background-color: #0072b1;
+    border: none;
 }
 

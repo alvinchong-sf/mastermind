@@ -3,7 +3,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 
 const HintModal = (props) => {
     
-
+        
     const hint = () => {
         if(props.table.length === 0) {
             return `The secret number at position 1 is ${props.secretNum[0]}`
@@ -25,7 +25,7 @@ const HintModal = (props) => {
                 <div className="hint-container">
                     <div className="hint-header">{hint()}</div>
                     <div className="hint-button-container">
-                        <button onClick={props.handleShowHintModal}><CancelOutlinedIcon color="secondary"/></button>
+                        <button className="cancel-button" onClick={props.handleShowHintModal}><CancelOutlinedIcon /></button>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import IncorrectGuess from '../audio/incorrect_guess.mp3';
 import Win from '../audio/win.mp3';
 import GameOver from '../audio/game_over.mp3';
 import HintModal from './modals/hint_modal';
+import Response from './response';
 
 class Keypad extends React.Component {
 
@@ -87,7 +88,7 @@ class Keypad extends React.Component {
 
     handleRestartMedium() {
         this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300, difficulty: "medium"});
-        this.handleMediumCode();
+        // this.handleMediumCode();
         this.handlePlayMusic();
         this.handleInterval();
     }
@@ -110,7 +111,7 @@ class Keypad extends React.Component {
         const numExact = this.handleNumExactMatches();
         const numNear = this.handleNumNearMatches(); 
 
-        // if the guess code is not at least 4 numbers
+        // if the guess code is not at least 4 || 6 numbers
         if(this.state.guessNum.length < this.state.secretNum.length) {
             alert(`Minimum ${this.state.secretNum.length} digit code require`);
         } // The player had guessed the secret code
@@ -241,36 +242,6 @@ class Keypad extends React.Component {
     render() {
         const idx = this.state.guessNum.length - 1;
         const backSpace = "<--";
-        let result;
-        if(this.state.difficulty === "medium") {
-            if(this.state.guessNum.length === 1) {
-                result = `__ __ __ ${this.state.guessNum}`
-            } else if (this.state.guessNum.length === 2) {
-                result = `__ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]}`
-            } else if (this.state.guessNum.length === 3) {
-                result = `__ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]}`
-            } else if (this.state.guessNum.length === 4) {
-                result = `${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]}`
-            } else {
-                result = "__ __ __ __";
-            }
-        } else {
-            if(this.state.guessNum.length === 1) {
-                result = `__ __ __ __ __ ${this.state.guessNum}`
-            } else if (this.state.guessNum.length === 2) {
-                result = `__ __ __ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]}`
-            } else if (this.state.guessNum.length === 3) {
-                result = `__ __ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]}`
-            } else if (this.state.guessNum.length === 4) {
-                result = `__ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]}`
-            } else if (this.state.guessNum.length === 5){
-                result = `__ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]} ${this.state.guessNum[4]}`
-            } else if (this.state.guessNum.length === 6){
-                result = `${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]} ${this.state.guessNum[4]} ${this.state.guessNum[5]}`
-            } else {
-                result = "__ __ __ __ __ __";
-            }
-        }
 
         return (
             <div>
@@ -280,9 +251,7 @@ class Keypad extends React.Component {
                         <h1 className="left-header">Guess the secret code</h1>
                         <h1 className="random-code-error">{this.state.errors.length > 1 ? this.state.errors : ""}</h1>
                         {/* <h2 className="code-enter">{this.state.guessNum.length ? this.state.guessNum : "__ __ __ __" }</h2> */}
-                        <h2 className="code-enter">{result}</h2>
-                        <div className="underscores">
-                        </div>
+                        <h2 className="code-enter"><Response difficulty={this.state.difficulty} guessNum={this.state.guessNum} /></h2>
                         <div className="number-button-container">
                             <button id="button1" onClick={this.handleClick} value="1">1</button>
                             <button id="button2" onClick={this.handleClick} value="2">2</button>
