@@ -18,26 +18,33 @@ class Keypad extends React.Component {
             table: [],
             win: false,
             score: 100,
-            timer: 300
+            timer: 300,
+            difficulty: null
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleClear = this.handleClear.bind(this);
-        this.handleStart = this.handleStart.bind(this);
-        this.handleRestart = this.handleRestart.bind(this);
+        this.handleStartMed = this.handleStartMed.bind(this);
+        this.handleRestartMedium = this.handleRestartMedium.bind(this);
+        this.handleRestartHard = this.handleRestartHard.bind(this);
         this.handleStopMusic = this.handleStopMusic.bind(this);
         this.handlePlayMusic = this.handlePlayMusic.bind(this);
         this.handlePauseMusic = this.handlePauseMusic.bind(this);
         this.handleCountDown = this.handleCountDown.bind(this);
         this.interval = null;
+        this.handleStartHard = this.handleStartHard.bind(this);
     }
 
     componentDidMount() {
-        this.handleNewCode();
+        // this.handleNewCode();
     }
 
-    async handleNewCode() {
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    async handleMediumCode() {
         const url = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
         const response = await fetch(url);
         if(!response.ok) this.setState({errors: `Error! status: ${response.status}, please reload the page!`});
@@ -49,15 +56,41 @@ class Keypad extends React.Component {
         console.log(`This is the secret code ${this.state.secretNum}`); // for developers to cheat
     }
 
-    handleStart() {
-        this.setState({showModal: !this.state.showModal});
+    async handleHardCode() {
+        const url = "https://www.random.org/integers/?num=6&min=0&max=7&col=1&base=10&format=plain&rnd=new";
+        const response = await fetch(url);
+        if(!response.ok) this.setState({errors: `Error! status: ${response.status}, please reload the page!`});
+        const data = await response.text();
+        const arr = data.split("\n");
+        const newArr = arr.slice(0, arr.length - 1);
+        this.setState({secretNum: newArr});
+        console.log(`This is the secret code ${this.state.secretNum}`); // for developers to cheat
+    }
+
+    handleStartMed() {
+        this.setState({showModal: !this.state.showModal, difficulty: "medium"});
+        this.handlePlayMusic();
+        this.handleInterval();
+        this.handleMediumCode();
+    }
+
+    handleStartHard() {
+        this.setState({showModal: !this.state.showModal, difficulty: "hard"});
+        this.handlePlayMusic();
+        this.handleInterval();
+        this.handleHardCode();
+    }
+
+    handleRestartMedium() {
+        this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300, difficulty: "medium"});
+        this.handleMediumCode();
         this.handlePlayMusic();
         this.handleInterval();
     }
 
-    handleRestart() {
-        this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300});
-        this.handleNewCode();
+    handleRestartHard() {
+        this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300, difficulty: "hard"});
+        this.handleHardCode();
         this.handlePlayMusic();
         this.handleInterval();
     }
@@ -74,8 +107,8 @@ class Keypad extends React.Component {
         const numNear = this.handleNumNearMatches(); 
 
         // if the guess code is not at least 4 numbers
-        if(this.state.guessNum.length < 4) {
-            alert("Minimum 4 digit code require");
+        if(this.state.guessNum.length < this.state.secretNum.length) {
+            alert(`Minimum ${this.state.secretNum.length} digit code require`);
         } // The player had guessed the secret code
         else if(this.state.secretNum.join("") === this.state.guessNum.join("")) {  // o(n) linear
             this.setState({win: true})
@@ -99,7 +132,7 @@ class Keypad extends React.Component {
     }
 
     handleClick(e) {
-        if(this.state.guessNum.length < 4) {
+        if(this.state.guessNum.length < this.state.secretNum.length) {
             this.setState({guessNum: this.state.guessNum.concat([e.currentTarget.value])});
         }
     }
@@ -181,6 +214,7 @@ class Keypad extends React.Component {
         if(this.state.timer === 0) {
             this.setState({numAttempts: 0})
             this.handleGameOver();
+            this.handleLoseAudio();
         }
     }
 
@@ -192,17 +226,35 @@ class Keypad extends React.Component {
     render() {
         const idx = this.state.guessNum.length - 1;
         const backSpace = "<--";
-        let result = ""
-        if(this.state.guessNum.length === 1) {
-            result = `__ __ __ ${this.state.guessNum}`
-        } else if (this.state.guessNum.length === 2) {
-            result = `__ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]}`
-        } else if (this.state.guessNum.length === 3) {
-            result = `__ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]}`
-        } else if (this.state.guessNum.length === 4) {
-            result = `${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]}`
+        let result;
+        if(this.state.difficulty === "medium") {
+            if(this.state.guessNum.length === 1) {
+                result = `__ __ __ ${this.state.guessNum}`
+            } else if (this.state.guessNum.length === 2) {
+                result = `__ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]}`
+            } else if (this.state.guessNum.length === 3) {
+                result = `__ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]}`
+            } else if (this.state.guessNum.length === 4) {
+                result = `${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]}`
+            } else {
+                result = "__ __ __ __";
+            }
         } else {
-            result = "__ __ __ __"
+            if(this.state.guessNum.length === 1) {
+                result = `__ __ __ __ __ ${this.state.guessNum}`
+            } else if (this.state.guessNum.length === 2) {
+                result = `__ __ __ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]}`
+            } else if (this.state.guessNum.length === 3) {
+                result = `__ __ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]}`
+            } else if (this.state.guessNum.length === 4) {
+                result = `__ __ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]}`
+            } else if (this.state.guessNum.length === 5){
+                result = `__ ${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]} ${this.state.guessNum[4]}`
+            } else if (this.state.guessNum.length === 6){
+                result = `${this.state.guessNum[0]} ${this.state.guessNum[1]} ${this.state.guessNum[2]} ${this.state.guessNum[3]} ${this.state.guessNum[4]} ${this.state.guessNum[5]}`
+            } else {
+                result = "__ __ __ __ __ __";
+            }
         }
 
         return (
@@ -254,9 +306,10 @@ class Keypad extends React.Component {
                         <h2><span className="timer-color-left">Timer:</span><span className="timer-color-right"> {this.state.timer}</span></h2>
 
                         {/* Game Opening Modal and Game Over Modal */}
-                            {this.state.showModal ? <Modal handleStart={this.handleStart}/> : ""}
+                            {this.state.showModal ? <Modal handleStartMed={this.handleStartMed} handleStartHard={this.handleStartHard}/> : ""}
                             {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal 
-                                                                                handleRestart={this.handleRestart} 
+                                                                                handleRestartMedium={this.handleRestartMedium} 
+                                                                                handleRestartHard={this.handleRestartHard}
                                                                                 win={this.state.win} 
                                                                                 score={this.state.score}
                                                                                 timer={this.state.timer}
