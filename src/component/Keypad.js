@@ -4,6 +4,7 @@ import GameOverModal from './modals/Game_over_modal';
 import IncorrectGuess from '../audio/incorrect_guess.mp3';
 import Win from '../audio/win.mp3';
 import GameOver from '../audio/game_over.mp3';
+import HintModal from './modals/hint_modal';
 
 class Keypad extends React.Component {
 
@@ -19,7 +20,8 @@ class Keypad extends React.Component {
             win: false,
             score: 100,
             timer: 300,
-            difficulty: null
+            difficulty: null,
+            showHintModal: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
@@ -34,6 +36,7 @@ class Keypad extends React.Component {
         this.handleCountDown = this.handleCountDown.bind(this);
         this.interval = null;
         this.handleStartHard = this.handleStartHard.bind(this);
+        this.handleShowHintModal = this.handleShowHintModal.bind(this);
     }
 
     componentDidMount() {
@@ -223,6 +226,17 @@ class Keypad extends React.Component {
         this.interval = setInterval(this.handleCountDown, 1000);
     }
 
+    handleShowHintModal() {
+        if(this.state.showHintModal === false) {
+            clearInterval(this.interval);
+            this.handlePauseMusic();
+        } else {
+            this.interval = setInterval(this.handleCountDown, 1000);
+            this.handlePlayMusic();
+        }
+        this.setState({showHintModal: !this.state.showHintModal})
+    }
+
     render() {
         const idx = this.state.guessNum.length - 1;
         const backSpace = "<--";
@@ -303,9 +317,16 @@ class Keypad extends React.Component {
                     <div> 
                         {/* Time && Attempts Remaning */}
                         <h1 className="attempt-header">Attempts Remaining: {this.state.numAttempts}</h1>
-                        <h2><span className="timer-color-left">Timer:</span><span className="timer-color-right"> {this.state.timer}</span></h2>
+                        <div className="timer-hint-container">
+                            <h2>
+                                <span className="timer-color-left">Timer:</span><span className="timer-color-right"> {this.state.timer}</span>
+                            </h2>
+                            <div>
+                                <button onClick={this.handleShowHintModal}>Hint</button>
+                            </div>
+                        </div>
 
-                        {/* Game Opening Modal and Game Over Modal */}
+                        {/* Game Opening Modal, Game Over Modal, Hint Modal */}
                             {this.state.showModal ? <Modal handleStartMed={this.handleStartMed} handleStartHard={this.handleStartHard}/> : ""}
                             {this.state.numAttempts <= 0 || this.state.win ? <GameOverModal 
                                                                                 handleRestartMedium={this.handleRestartMedium} 
@@ -314,6 +335,12 @@ class Keypad extends React.Component {
                                                                                 score={this.state.score}
                                                                                 timer={this.state.timer}
                                                                                 />: ""} 
+                            {this.state.showHintModal ? <HintModal 
+                                                            handleShowHintModal={this.handleShowHintModal} 
+                                                            showHintModal={this.state.showHintModal} 
+                                                            secretNum={this.state.secretNum}
+                                                            table={this.state.table}
+                                                            /> : ""}
                         {/* Feedback History */}
                         <div className="feedback-container">
                             <h3 className="feedback-header">Feedback</h3>
