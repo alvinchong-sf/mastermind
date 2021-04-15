@@ -53,6 +53,14 @@ npm start
  * Refactor codes to make it DRY.
  * Research on writing test in react.
 
+### April 14th Wednesday
+ * Added game difficulty Hard mode
+ * Implemented Hints
+
+### April 15th Thursday
+ * Refactor codes
+ * Finishing touches on CSS styling
+
 ## Features
 ### 1. Start Game Modal
   * Ready to play? Start the game with a click of a button!
