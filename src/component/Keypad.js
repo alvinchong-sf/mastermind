@@ -164,29 +164,6 @@ class Keypad extends React.Component {
 
     handleNumNearMatches() {
         // The player had guess a correct number (number exist but not at the right location)
-
-        // let counter = 0;
-        // let copyArr = this.state.secretNum.slice();
-
-        // for(let i = 0; i < this.state.guessNum.length; i++) {                    // [6,0,3,1,3,4]
-        //     if(this.state.guessNum[i] === this.state.secretNum[i]) {             // [5,4,2,1,3,7]
-        //         copyArr[i] = true;                                               // [6,0,3,T,T,4]
-        //     }
-        // }
-
-        // 1st attempt did not mark visited
-        // for(let j = 0; j < this.state.guessNum.length; j++) {
-        //     if(this.state.secretNum.includes(this.state.guessNum[j] && this.state.guessNum[j] !== this.state.secretNum[j])) {
-        //         counter++
-        //     }
-        // }
-  
-        // 2nd attempt at fixing the logic
-        // for(let j = 0; j < this.state.guessNum.length; j++) {                                       
-        //     if(copyArr.includes(this.state.guessNum[j]) && this.state.guessNum[j] !== copyArr[j]) {  
-        //         counter++
-        //     }                                                                  
-        // }
                                                                                                             
         // 3rd attempt at fixing the logic using hash
         // secret = [1,2,3,1]
