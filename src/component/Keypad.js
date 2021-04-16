@@ -87,14 +87,14 @@ class Keypad extends React.Component {
     }
 
     handleRestartMedium() {
-        this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300, difficulty: "medium"});
+        this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300, difficulty: "medium", hintLife: 1});
         this.handleMediumCode();
         this.handlePlayMusic();
         this.handleInterval();
     }
 
     handleRestartHard() {
-        this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300, difficulty: "hard"});
+        this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300, difficulty: "hard", hintLife: 1});
         this.handleHardCode();
         this.handlePlayMusic();
         this.handleInterval();
