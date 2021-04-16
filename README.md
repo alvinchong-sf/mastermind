@@ -78,7 +78,7 @@ npm start
   * Replay the game and beat your previous score!
 <img src="./public/images/end_game.png" height="300" >
 
-## Upcoming Features
-* Writing test units
-* Add support to give hints
-* Add "difficulty level"
+## Future Considerations
+* Writing test unit.
+* Incorporate Local Storage to store highscores histories.
+* More intricate styling and animations.
