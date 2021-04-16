@@ -13,7 +13,7 @@ class Keypad extends React.Component {
         super(props)
         this.state = {
             guessNum: [],
-            secretNum: ["1","2","3","1"],
+            secretNum: [],
             errors: "",
             numAttempts: 10,
             showModal: true,
@@ -76,7 +76,7 @@ class Keypad extends React.Component {
         this.setState({showModal: !this.state.showModal, difficulty: "medium"});
         this.handlePlayMusic();
         this.handleInterval();
-        // this.handleMediumCode();
+        this.handleMediumCode();
     }
 
     handleStartHard() {
