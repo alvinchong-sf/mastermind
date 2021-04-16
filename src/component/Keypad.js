@@ -13,7 +13,7 @@ class Keypad extends React.Component {
         super(props)
         this.state = {
             guessNum: [],
-            secretNum: [],
+            secretNum: ["1","2","3","1"],
             errors: "",
             numAttempts: 10,
             showModal: true,
@@ -76,7 +76,7 @@ class Keypad extends React.Component {
         this.setState({showModal: !this.state.showModal, difficulty: "medium"});
         this.handlePlayMusic();
         this.handleInterval();
-        this.handleMediumCode();
+        // this.handleMediumCode();
     }
 
     handleStartHard() {
@@ -88,7 +88,7 @@ class Keypad extends React.Component {
 
     handleRestartMedium() {
         this.setState({guessNum: [], numAttempts: 10, table: [], win: false, score: 100, timer: 300, difficulty: "medium"});
-        // this.handleMediumCode();
+        this.handleMediumCode();
         this.handlePlayMusic();
         this.handleInterval();
     }
@@ -101,7 +101,7 @@ class Keypad extends React.Component {
     }
 
     handleGameOver() {
-        // code below won't work yet
+        // code below won't work because state does not change immediately 
         // !this.state.win ? this.handleWinAudio() : this.handleLoseAudio();
         this.handleStopMusic();
         clearInterval(this.interval);
@@ -164,20 +164,60 @@ class Keypad extends React.Component {
 
     handleNumNearMatches() {
         // The player had guess a correct number (number exist but not at the right location)
-        // time o(n) | space o(n)
+        // 
+
+        // let counter = 0;
+        // let copyArr = this.state.secretNum.slice();
+
+        // for(let i = 0; i < this.state.guessNum.length; i++) {                    // [6,0,3,1,3,4]
+        //     if(this.state.guessNum[i] === this.state.secretNum[i]) {             // [5,4,2,1,3,7]
+        //         copyArr[i] = true;                                               // [6,0,3,T,T,4]
+        //     }
+        // }
+
+        // 1st attempt did not mark visited
+        // for(let j = 0; j < this.state.guessNum.length; j++) {
+        //     if(this.state.secretNum.includes(this.state.guessNum[j] && this.state.guessNum[j] !== this.state.secretNum[j])) {
+        //         counter++
+        //     }
+        // }
+  
+        // 2nd attempt at fixing the logic
+        // for(let j = 0; j < this.state.guessNum.length; j++) {                                       
+        //     if(copyArr.includes(this.state.guessNum[j]) && this.state.guessNum[j] !== copyArr[j]) {  
+        //         counter++
+        //     }                                                                  
+        // }
+                                                                                                            
+        // 3rd attempt at fixing the logic using hash
+        // secret = [1,3,3,1]
+        // guess = [3,1,1,0]
+        // counter = 3
+        // {
+        //   1: 0,
+        //   3: 1
+        // }
+        // if hash[guessNum[i]] > 0; counter++; hash[guessNum[i]] --;
+        // for(let j = 0; j < this.state.guessNum.length; j++) {                                                 
+        //     // if( this.state.guessNum.includes(copyArr[j]) && this.state.guessNum[j] !== copyArr[j]) {     
+        //     if( copyArr.includes(this.state.guessNum[j]) && this.state.guessNum[j] !== copyArr[j]) {        
+        //         counter++
+        //     }                                                                                   
+        // }                                                                                    
+        // return counter;
 
         let counter = 0;
-        let copyArr = this.state.secretNum.slice();
+        let hash = {};
+        for(let i = 0; i < this.state.secretNum.length; i++) {
+            let num = this.state.secretNum[i];
+            if(hash[num] === undefined) hash[num] = 0;
+            hash[num]++;
+        }
 
         for(let i = 0; i < this.state.guessNum.length; i++) {
-            if(this.state.guessNum[i] === this.state.secretNum[i]) {
-                copyArr[i] = true;
-            }
-        }
-  
-        for(let j = 0; j < this.state.guessNum.length; j++) {
-            if(copyArr.includes(this.state.guessNum[j]) && this.state.guessNum[j] !== copyArr[j]) {
-                counter++
+            let num = this.state.guessNum[i];
+            if(hash[num] > 0) {
+                counter++; hash[num]--;
             }
         }
         return counter;
